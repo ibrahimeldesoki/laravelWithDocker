@@ -1,0 +1,29 @@
+version: '2'
+services:
+  webservice:
+    image: nginx
+    volumes:
+      - ./code:/var/www
+      - ./learnDocker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports: 
+      - "8082:80"
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/php/dockerFile
+    volumes:
+      - ./code:/var/www
+    working_dir: /var/www
+  db:
+    image: mysql:5.7
+    ports: 
+      - "3388:3306"
+    volumes:
+          - ./docker-volumes-data/db:/var/lib/database
+    environment:
+      MYSQL_DATABASE: laravel_db
+      MYSQL_ROOT_PASSWORD: root
+  redis:
+    image: redis
+    volumes:
+      - ./docker-volumes-data/redis:/data
