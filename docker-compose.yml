@@ -4,9 +4,11 @@ services:
     image: nginx
     volumes:
       - ./code:/var/www
-      - ./learnDocker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     ports: 
       - "8082:80"
+    depends_on:
+      - app
   app:
     build:
       context: .
