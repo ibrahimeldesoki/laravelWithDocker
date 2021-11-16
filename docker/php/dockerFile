@@ -4,10 +4,6 @@
     # Copy composer.lock and composer.json
     # COPY ./learnDocker/code/composer.lock* ./learnDocker/code/composer.json* /var/www/
 
-    # Set working directory
-    WORKDIR /var/www
-
-    COPY . .
     # Install dependencies
     RUN apt-get update && apt-get install -y \
         build-essential \
@@ -44,6 +40,11 @@
 
     # Copy existing application directory contents
     COPY ./code /var/www
+
+    # Set working directory
+    WORKDIR /var/www/code
+
+    RUN cd /var/www/code && composer install
 
     # Copy existing application directory permissions
     COPY --chown=www:www . /var/www
